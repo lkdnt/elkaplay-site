@@ -4,7 +4,62 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Docs • ElkaPlay</title>
-  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="stylesheet" href="/assets/style-retro.css" />
+  <style>
+    /* --- local tweaks for docs hub --- */
+    .toolbar {
+      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+      margin:16px 0 8px;
+    }
+    .search {
+      flex:1 1 320px; display:flex; align-items:center; gap:8px;
+      background:linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      border:2px solid var(--bevel-dark); outline:2px solid var(--bevel-light);
+      padding:8px 10px;
+    }
+    .search input {
+      width:100%; background:transparent; border:0; color:var(--text);
+      font:20px/1 "VT323", ui-monospace, Menlo, Consolas, monospace;
+      outline:none;
+    }
+    .view-toggle { display:flex; gap:6px; }
+    .toggle-btn{
+      font:18px/1 "VT323", monospace; color:#fff;
+      background:linear-gradient(90deg, var(--accent-3), var(--accent));
+      border:0; padding:8px 10px; cursor:pointer;
+      border-radius:0; box-shadow:0 8px 18px rgba(255,77,109,.2);
+    }
+    .toggle-btn[aria-pressed="true"]{
+      filter:saturate(120%); outline:3px solid var(--accent-2); outline-offset:2px;
+    }
+
+    /* card view uses your existing .grid + .card styles */
+    .docs.grid { margin-top:16px; }
+
+    /* list view */
+    .list {
+      display:flex; flex-direction:column; gap:10px; margin:16px 0 44px;
+    }
+    .list .doc-item {
+      display:flex; gap:16px; align-items:flex-start;
+      background:linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      border:2px solid var(--bevel-dark); outline:2px solid var(--bevel-light);
+      padding:12px;
+    }
+    .doc-item h3 { margin:0 0 4px; font-size:18px; text-transform:uppercase; }
+    .doc-item p { margin:0; color:var(--muted); font-size:18px }
+    .doc-item .meta { font-size:16px; color:var(--muted); opacity:.9 }
+    .doc-item a { color:inherit; text-decoration:none }
+    .doc-item a:hover { text-decoration:underline }
+
+    /* hide when filtered */
+    .hidden { display:none !important; }
+
+    /* small helper for tag chips */
+    .tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+    .tag { font:600 12px/1 system-ui; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12);
+           background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#fff; }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -19,31 +74,181 @@
 
     <header class="hero">
       <h1>Documentation</h1>
-      <p>Explainers for our systems: FSMs, EventBus, save/load, packing grid, etc.</p>
+      <p>Explainers and references for systems: FSMs, EventBus, Save/Load, Packing Grid, and more.</p>
     </header>
 
-    <section class="grid">
-      <a class="card" href="/docs/getting-started.html">
+    <!-- Toolbar: search + view toggle -->
+    <div class="toolbar" role="region" aria-label="Docs controls">
+      <label class="search" aria-label="Search documentation">
+        🔎
+        <input id="q" type="search" placeholder="Search docs by title, description, or tag…" autocomplete="off" />
+      </label>
+      <div class="view-toggle" role="group" aria-label="View toggle">
+        <button id="btnCards" class="toggle-btn" aria-pressed="true" title="Cards view">Cards</button>
+        <button id="btnList"  class="toggle-btn" aria-pressed="false" title="List view">List</button>
+      </div>
+    </div>
+
+    <!-- Card view (default) -->
+    <section id="cards" class="docs grid" aria-label="Documentation (cards)">
+      <!-- Each doc item is a link-wrapped .card with metadata attrs -->
+      <a class="card doc-item"
+         href="/docs/getting-started.html"
+         data-title="getting started project overview"
+         data-desc="project conventions, folder layout, naming, versions"
+         data-tags="intro,overview,conventions">
         <h3>Getting Started</h3>
-        <p>Project overview and conventions.</p>
+        <p>Project structure, naming, and conventions.</p>
+        <div class="tags"><span class="tag">intro</span><span class="tag">overview</span></div>
       </a>
-      <a class="card" href="/docs/eventbus.html">
+
+      <a class="card doc-item"
+         href="/docs/eventbus.html"
+         data-title="eventbus observer publish subscribe"
+         data-desc="event payloads examples subscribe unsubscribe"
+         data-tags="core,events,observer">
         <h3>EventBus</h3>
-        <p>Publish/subscribe pattern, payloads, examples.</p>
+        <p>Publish/subscribe pattern, payload structs, examples.</p>
+        <div class="tags"><span class="tag">core</span><span class="tag">events</span></div>
       </a>
-      <a class="card" href="/docs/fsm.html">
+
+      <a class="card doc-item"
+         href="/docs/fsm.html"
+         data-title="finite state machine interface abstract base"
+         data-desc="states transitions helpers enemy ai"
+         data-tags="core,fsm,ai">
         <h3>State Machines</h3>
         <p>Interfaces vs abstract base, transitions, helpers.</p>
+        <div class="tags"><span class="tag">core</span><span class="tag">fsm</span></div>
       </a>
-      <a class="card" href="/docs/save-load.html">
+
+      <a class="card doc-item"
+         href="/docs/save-load.html"
+         data-title="save load serialization metadata performance"
+         data-desc="profile schema weekly summary json"
+         data-tags="save,load,metadata,json">
         <h3>Save / Load</h3>
-        <p>Metadata schema, serialization, performance stats.</p>
+        <p>Metadata schema, serialization, weekly performance summary.</p>
+        <div class="tags"><span class="tag">metadata</span><span class="tag">json</span></div>
+      </a>
+
+      <a class="card doc-item"
+         href="/docs/packing-grid.html"
+         data-title="packing grid 6x6x6 rotation cell system"
+         data-desc="grid coordinates rotations box sizes"
+         data-tags="systems,grid,packing">
+        <h3>Packing Grid</h3>
+        <p>6×6×6 cell system, rotations, and box sizes.</p>
+        <div class="tags"><span class="tag">grid</span><span class="tag">systems</span></div>
       </a>
     </section>
 
+    <!-- List view (hidden until toggled) -->
+    <section id="list" class="docs list hidden" aria-label="Documentation (list)">
+      <!-- Mirror items for list; easier to keep markup simple/readable -->
+      <article class="doc-item" data-title="getting started project overview" data-desc="project conventions folder layout naming versions" data-tags="intro,overview,conventions">
+        <div>
+          <h3><a href="/docs/getting-started.html">Getting Started</a></h3>
+          <p class="meta">Project structure, naming, and conventions.</p>
+          <div class="tags"><span class="tag">intro</span><span class="tag">overview</span></div>
+        </div>
+      </article>
+
+      <article class="doc-item" data-title="eventbus observer publish subscribe" data-desc="event payloads examples subscribe unsubscribe" data-tags="core,events,observer">
+        <div>
+          <h3><a href="/docs/eventbus.html">EventBus</a></h3>
+          <p class="meta">Publish/subscribe pattern, payload structs, examples.</p>
+          <div class="tags"><span class="tag">core</span><span class="tag">events</span></div>
+        </div>
+      </article>
+
+      <article class="doc-item" data-title="finite state machine interface abstract base" data-desc="states transitions helpers enemy ai" data-tags="core,fsm,ai">
+        <div>
+          <h3><a href="/docs/fsm.html">State Machines</a></h3>
+          <p class="meta">Interfaces vs abstract base, transitions, helpers.</p>
+          <div class="tags"><span class="tag">core</span><span class="tag">fsm</span></div>
+        </div>
+      </article>
+
+      <article class="doc-item" data-title="save load serialization metadata performance" data-desc="profile schema weekly summary json" data-tags="save,load,metadata,json">
+        <div>
+          <h3><a href="/docs/save-load.html">Save / Load</a></h3>
+          <p class="meta">Metadata schema, serialization, weekly performance summary.</p>
+          <div class="tags"><span class="tag">metadata</span><span class="tag">json</span></div>
+        </div>
+      </article>
+
+      <article class="doc-item" data-title="packing grid 6x6x6 rotation cell system" data-desc="grid coordinates rotations box sizes" data-tags="systems,grid,packing">
+        <div>
+          <h3><a href="/docs/packing-grid.html">Packing Grid</a></h3>
+          <p class="meta">6×6×6 cell system, rotations, and box sizes.</p>
+          <div class="tags"><span class="tag">grid</span><span class="tag">systems</span></div>
+        </div>
+      </article>
+    </section>
+
     <footer class="footer">
-      <small>Tip: version your docs—note major changes in each file’s header.</small>
+      <small>Press <code>/</code> to focus search • View persists via URL (?view=cards|list)</small>
     </footer>
   </div>
+
+  <script>
+    // --- tiny docs hub controller ---
+    (function(){
+      const q = document.getElementById('q');
+      const btnCards = document.getElementById('btnCards');
+      const btnList  = document.getElementById('btnList');
+      const cards = document.getElementById('cards');
+      const list  = document.getElementById('list');
+
+      // helpers
+      const setPressed = (el, on) => el.setAttribute('aria-pressed', on ? 'true' : 'false');
+      const showCards = () => { cards.classList.remove('hidden'); list.classList.add('hidden'); setPressed(btnCards, true); setPressed(btnList, false); persist('cards'); }
+      const showList  = () => { list.classList.remove('hidden'); cards.classList.add('hidden'); setPressed(btnCards, false); setPressed(btnList, true); persist('list'); }
+      const persist = (view) => {
+        const url = new URL(location.href);
+        url.searchParams.set('view', view);
+        history.replaceState(null, '', url);
+      }
+      const getViewFromURL = () => new URL(location.href).searchParams.get('view');
+
+      // initial view (URL param wins)
+      (getViewFromURL() === 'list') ? showList() : showCards();
+
+      // toggle handlers
+      btnCards.addEventListener('click', showCards);
+      btnList .addEventListener('click', showList);
+
+      // search (filters both views so switching keeps results)
+      const items = Array.from(document.querySelectorAll('.doc-item'));
+      const norm = s => (s||'').toLowerCase();
+      const match = (item, term) => {
+        const t = item.dataset.title || '';
+        const d = item.dataset.desc || '';
+        const g = item.dataset.tags || '';
+        return [t,d,g].some(x => norm(x).includes(term));
+      };
+      function applyFilter(term){
+        const needle = norm(term.trim());
+        items.forEach(el => el.classList.toggle('hidden', needle && !match(el, needle)));
+      }
+
+      q.addEventListener('input', e => applyFilter(e.target.value));
+
+      // keyboard: "/" focuses search like many docs sites
+      window.addEventListener('keydown', (e) => {
+        if (e.key === '/' && document.activeElement !== q) {
+          e.preventDefault(); q.focus();
+        }
+      });
+
+      // if page loads with ?q=term, prefill + filter
+      const qp = new URL(location.href).searchParams;
+      if (qp.has('q')) { q.value = qp.get('q'); applyFilter(q.value); }
+
+      // basic accessibility: label search on first focus if empty
+      q.addEventListener('focus', () => q.placeholder = q.placeholder || 'Search…');
+    })();
+  </script>
 </body>
 </html>
