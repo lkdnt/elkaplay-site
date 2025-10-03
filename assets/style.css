@@ -1,0 +1,120 @@
+/* ===== ElkaPlay Dark Blue + Red/Pink Accent Theme ===== */
+:root{
+  --bg-0:#000000;     /* deep navy */
+  --bg-1:#da0000;     /* card/nav base */
+  --bg-2:#c30e9f;     /* hover/raised */
+  --text:#ffffff;     /* main text */
+  --muted:#ffffff;    /* secondary text */
+  --border:#ac0000;   /* subtle outline */
+  --accent:#ffffff;   /* red/pink accent */
+  --accent-2:#ffffff; /* lighter pink */
+  --accent-3:rgb(195, 10, 56); /* deeper red */
+  --link:#ffffff;     /* soft pink for links */
+  --shadow: 0 10px 24px rgba(0, 0, 0, 0.173);
+  --radius: 16px;
+  --trans: 180ms cubic-bezier(.2,.7,.2,1);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background: radial-gradient(1200px 800px at 20% -10%, #0e1a36 0%, var(--bg-0) 45%, #060912 100%);
+  color:var(--text);
+  font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+
+.container{max-width:1040px;margin:0 auto;padding:24px}
+
+.nav{
+  position:sticky; top:0; z-index:10;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 0; backdrop-filter:saturate(120%) blur(8px);
+  border-bottom:1px solid var(--border);
+}
+
+.brand{
+  font-weight:800; letter-spacing:.3px; font-size:18px;
+  background:linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 50%, #ffffff 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+.nav a{
+  color:var(--text); text-decoration:none; margin-left:18px; opacity:.92;
+  position:relative; transition:color var(--trans), opacity var(--trans);
+}
+.nav a:after{
+  content:""; position:absolute; left:0; bottom:-6px; height:2px; width:0;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  transition:width var(--trans);
+}
+.nav a:hover{ color:#fff; opacity:1 }
+.nav a:hover:after{ width:100% }
+
+.hero{ padding:56px 0 16px }
+.hero h1{ margin:0 0 8px; font-size:34px }
+.hero p{ margin:0; color:var(--muted) }
+
+.grid{
+  display:grid; gap:18px; margin:28px 0 56px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+}
+
+.card{
+  background:linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px; box-shadow:var(--shadow);
+  transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
+}
+.card h3{ margin:0 0 6px; font-size:18px }
+.card p{ margin:0; color:var(--muted) }
+.card a{ text-decoration:none; color:inherit; display:block; height:100% }
+.card:hover{
+  transform:translateY(-3px);
+  border-color:color-mix(in oklab, var(--accent) 45%, var(--border));
+  box-shadow:0 16px 36px rgba(255,77,109,.13), var(--shadow);
+}
+
+/* buttons (optional utility) */
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  background:linear-gradient(90deg,var(--accent-3),var(--accent));
+  color:#fff; border:0; border-radius:12px; padding:10px 14px;
+  font-weight:600; text-decoration:none; box-shadow:0 8px 18px rgba(255,77,109,.25);
+  transition:transform var(--trans), box-shadow var(--trans), filter var(--trans);
+}
+.btn:hover{ transform:translateY(-1px); filter:saturate(110%); box-shadow:0 12px 26px rgba(255,77,109,.28) }
+.btn:active{ transform:translateY(0) scale(.98) }
+
+/* code chips + small UI bits */
+.tag{
+  display:inline-block; font:600 12px/1 system-ui;
+  color:#fff; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.12);
+}
+
+/* footer */
+.footer{
+  border-top:1px solid var(--border);
+  padding:20px 0; color:var(--muted); font-size:14px;
+}
+
+/* links inside content */
+a{ color:var(--link) }
+a:hover{ color:#fff }
+
+/* responsive tweaks */
+@media (max-width:640px){
+  .hero{ padding:36px 0 8px }
+  .hero h1{ font-size:28px }
+}
+
+/* focus visibility for a11y */
+:where(a,button,.btn).focus-visible,
+:where(a,button,.btn):focus-visible{
+  outline:2px solid var(--accent-2);
+  outline-offset:3px;
+  border-radius:10px;
+}

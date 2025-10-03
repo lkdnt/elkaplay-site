@@ -4,18 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ElkaPlay</title>
-  <link rel="stylesheet" href="assets/style.css" />
+  <link rel="stylesheet" href="assets/style-retro.css" />
 </head>
 <body>
   <div class="container">
-    <nav class="nav">
-      <div class="brand">ElkaPlay</div>
-      <div>
-        <a href="/blog/">Blog</a>
-        <a href="/docs/">Docs</a>
-        <a href="/projects/">Projects</a>
-      </div>
-    </nav>
+    <header id="site-header"></header>
 
     <header class="hero">
       <h1>Build • Learn • Ship</h1>
@@ -41,6 +34,7 @@
       <small>© <span id="y"></span> ElkaPlay • hosted on GitHub Pages • domain: elkaplay.com</small>
     </footer>
   </div>
+  <script src="/assets/header.js"></script>
   <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>

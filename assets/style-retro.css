@@ -1,0 +1,168 @@
+/* ===== ElkaPlay • Retro CRT Theme (dark blue + red/pink neon) ===== */
+/* Webfonts (pixel/arcade): Press Start 2P + VT323 */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+
+:root{
+  /* palette */
+  --bg-0:#071435;          /* deep navy */
+  --bg-1:#0c1329;          /* panel */
+  --bg-2:#3d0f33;          /* hover */
+  --grid:#475ba3;          /* background grid line */
+  --text:#e6f2ff;
+  --muted:#9bb0d0;
+  --accent:#ff4d6d;        /* neon red/pink */
+  --accent-2:#ff82b2;      /* lighter neon */
+  --accent-3:#ff1f56;      /* hotter red */
+
+  /* retro chrome */
+  --bevel-light:#24325b;
+  --bevel-dark:rgba(255, 255, 255, 0.353);
+
+  --shadow: 0 12px 24px rgba(0,0,0,.45);
+  --radius: 0;             /* pixel corners! */
+  --trans: 120ms steps(6, end);
+}
+
+/* reset-ish */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+img{image-rendering:pixelated}
+
+/* CRT background with subtle grid + vignette */
+body{
+  background:
+    radial-gradient(1500px 750px at 50% -10%, #eb0089, var(--bg-0) 60%) fixed;
+  color:var(--text);
+  font:16px/1.6 "VT323", ui-monospace, Menlo, Consolas, monospace;
+  letter-spacing:.2px;
+  text-shadow:0 0 1px rgba(255,255,255,.05);
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* scanlines + subtle flicker */
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.03) 0px,
+      rgba(255,255,255,.03) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  mix-blend-mode:overlay;
+  animation: flicker 3.5s infinite steps(60, end);
+  opacity:.35;
+}
+@keyframes flicker{
+  0%{opacity:.33} 50%{opacity:.38} 100%{opacity:.33}
+}
+
+/* subtle perspective grid */
+body::after{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    linear-gradient(to right, transparent 49.5%, var(--grid) 50%, transparent 50.5%) 0 0/40px 40px,
+    linear-gradient(to bottom, transparent 49.5%, var(--grid) 50%, transparent 50.5%) 0 0/40px 40px;
+  opacity:.06;
+}
+
+.container{max-width:980px;margin:0 auto;padding:24px; position:relative; z-index:1}
+
+/* NAV — pixel font for brand, simple links */
+.nav{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 0; border-bottom:2px solid var(--bevel-dark);
+}
+.brand{
+  font-family:"Press Start 2P", monospace;
+  font-size:16px; line-height:1;
+  color:var(--text);
+  text-shadow:
+    1px 0 0 var(--accent),
+    0 1px 0 var(--accent-2),
+    -1px 0 0 #0cf,
+    0 -1px 0 #0cf; /* tiny chromatic aberration */
+}
+.nav a{
+  font-family:"VT323", monospace;
+  font-size:20px;
+  color:var(--text); text-decoration:none; margin-left:18px;
+  position:relative; transition:color var(--trans);
+}
+.nav a::after{
+  content:""; position:absolute; left:0; bottom:-6px; height:2px; width:0;
+  background: repeating-linear-gradient(90deg, var(--accent), var(--accent) 6px, var(--accent-2) 6px, var(--accent-2) 12px);
+  transition:width var(--trans);
+}
+.nav a:hover{ color:#fff }
+.nav a:hover::after{ width:100% }
+
+/* HERO — chunky titles */
+.hero{ padding:28px 0 4px }
+.hero h1{
+  margin:0 0 8px;
+  font-family:"Press Start 2P", monospace;
+  font-size:22px;
+  letter-spacing:1px;
+}
+.hero p{ margin:0; color:var(--muted) }
+
+/* GRID of cards — pixel-bevel frames */
+.grid{
+  display:grid; gap:16px; margin:22px 0 44px;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+}
+
+/* Pixel frame using multi-shadow + harsh borders */
+.card{
+  background:linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  border:2px solid var(--bevel-dark);
+  outline:2px solid var(--bevel-light);          /* outer light edge */
+  box-shadow:
+    0 0 0 4px #b0b6cc inset,                       /* inner black inset */
+    0 0 0 2px var(--bevel-dark) inset,          /* inner dark edge */
+    0 12px 0 0 #000,                            /* hard drop "shadow" */
+    var(--shadow);
+  border-radius:var(--radius);
+  padding:16px; transform:translateY(0);
+  transition: transform var(--trans), filter var(--trans);
+}
+.card h3{
+  margin:0 0 8px; font-size:18px; letter-spacing:.6px;
+  text-transform:uppercase;
+  color:#fff;
+  text-shadow:0 0 6px rgba(255, 11, 210, 0.705);
+}
+.card p{ margin:0; color:var(--muted); font-size:18px }
+.card a{ text-decoration:none; color:inherit; display:block; height:100% }
+
+.card:hover{
+  transform:translateY(-3px);
+  filter: drop-shadow(0 0 10px rgba(255, 77, 193, 0.25));
+}
+
+/* Footer — thin raster border */
+.footer{
+  border-top:2px dashed var(--bevel-dark);
+  padding:16px 0; color:var(--muted); font-size:18px;
+}
+
+/* links inside content */
+a{ color:#ffd6e6 }
+a:hover{ color:#fff; text-shadow:0 0 6px rgba(255,130,178,.6) }
+
+/* accessibility: clear focus ring */
+:where(a,button).focus-visible{
+  outline:3px solid var(--accent);
+  outline-offset:2px;
+}
+
+/* small screens */
+@media (max-width:640px){
+  .hero h1{ font-size:18px }
+  .card p{ font-size:17px }
+}

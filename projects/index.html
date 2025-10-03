@@ -4,42 +4,38 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Projects • ElkaPlay</title>
-  <link rel="stylesheet" href="/assets/style.css" />
+  <link rel="stylesheet" href="/assets/style-retro.css" />
+  <meta name="robots" content="noindex">
 </head>
 <body>
   <div class="container">
-    <nav class="nav">
-      <div class="brand">ElkaPlay</div>
-      <div>
-        <a href="/blog/">Blog</a>
-        <a href="/docs/">Docs</a>
-        <a href="/projects/">Projects</a>
-      </div>
-    </nav>
+    <header id="site-header"></header>
 
     <header class="hero">
       <h1>Projects</h1>
-      <p>Prototypes, assets, and experiments.</p>
+      <p>Work-in-progress. Links and builds will appear here later.</p>
     </header>
 
     <section class="grid">
-      <a class="card" href="https://github.com/lkdnt" target="_blank" rel="noopener">
-        <h3>GitHub</h3>
-        <p>Browse repos and code.</p>
-      </a>
-      <a class="card" href="#" >
+      <div class="card">
         <h3>Side-Scroller</h3>
-        <p>Katana hero, drone enemies — notes & builds (soon).</p>
-      </a>
-      <a class="card" href="#">
+        <p>Katana hero, drones & ratlings. (Coming soon)</p>
+      </div>
+      <div class="card">
         <h3>Packing-Sim</h3>
-        <p>Grid packing, orders, metadata save/load (soon).</p>
+        <p>Grid packing, orders, save/load metadata. (Coming soon)</p>
+      </div>
+      <a class="card" href="/">
+        <h3>← Back Home</h3>
+        <p>Return to the main hub.</p>
       </a>
     </section>
 
     <footer class="footer">
-      <small>Link playable builds or itch.io pages here when ready.</small>
+      <small>© <span id="y"></span> ElkaPlay</small>
     </footer>
   </div>
+  <script src="/assets/header.js"></script>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
